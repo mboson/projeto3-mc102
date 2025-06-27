@@ -3,63 +3,13 @@ import random
 
 class ListaDeTarefas:
     '''Classe que vai conter várias tarefas'''
-    def __init__(self, id):
+    def __init__(self, id, titulo):
         self.id = id
         self.tarefas = []
+        self.titulo = titulo
         
-        print('Crie aqui sua Lista de Tarefas!')
-        self.titulo = input('Qual o título da sua lista de tarefas? ')
-    
-    def adicionar_tarefa(self):
-        id_tarefa = random.randint(1000, 9999)
-        
-        while id_tarefa in self.ids_tarefas:
-            id_tarefa = random.randint(1000, 9999)
-        
-        print('Crie aqui sua Tarefa!')
-        
-        titulo = input('Qual o título da sua tarefa? ')
-        print()
-        
-        nota = input('Você tem alguma nota sobre a sua tarefa? \n')
-        print()
-        
-        dia, mes, ano = input('Digite o dia, mês e ano para a conclusão da tarefa no formato dd/mm/aaaa:').split('/')
-        data_conclusao = datetime.datetime(ano, mes, dia)
-        print()
-        
-        tags = []
-        print('Você gostaria de adicionar tags à sua tarefa? Caso não queira, não digite nada e pressione ENTER.')
-        while True:
-            tag = input()
-            
-            if tag == '':
-                break
-            
-            tags.append(tag)
-        print()
-        
-        valores_possiveis_prioridades = ["sem prioridade", "baixa", "média", "alta"]
-        while True:
-            prioridade = input('Qual a prioridade dessa tarefa? Valores possíveis: "Sem prioridade", "Baixa", "Média" e "Alta". \n').lower()
-            
-            if prioridade in valores_possiveis_prioridades:
-                break
-            
-            print('O valor digitado é inváldio! Tente novamente.')
-            print()
-        
-        valores_possiveis_repeticao = ["nenhuma", "diária", "semanal", "mensal", "anual"]
-        while True:
-            repeticao = input('Qual a frequência de repetição dessa tarefa? Valores possíveis: "Nenhuma", "Diária", "Semanal", "Mensal" e "Anual". \n').lower()
-            
-            if repeticao in valores_possiveis_repeticao:
-                break
-            
-            print('O valor digitado é inválido! Tente novamente.')
-            print()
-        
-        self.tarefas.append(Tarefa(id_tarefa, self, titulo, nota, data_conclusao, tags, prioridade, repeticao))
+    def __str__(self):
+        return self.titulo
     
     def concluir_tarefa(self, id_tarefa):
         for tarefa in self.tarefas:
@@ -103,6 +53,16 @@ class ListaDeTarefas:
     def remover_tarefa(self, tarefa):
         self.tarefas.remove(tarefa)
         print(f"Tarefa removida: {tarefa}")
+    
+    def editar_lista(self):
+        novo_titulo = input('Digite o novo título da lista: ').strip()
+        
+        if novo_titulo == self.titulo or novo_titulo == '':
+            print('O título digitado é igual ao atual! Tente novamente.')
+            self.editar_lista()
+        else:
+            self.titulo = novo_titulo
+            print(f'Título da lista alterado para: {self.titulo}')
 
     def busca_tarefa(self, tarefa): #incompleto
         if tarefa in self.tarefas:
@@ -111,9 +71,9 @@ class ListaDeTarefas:
             print("Tarefa não encontrada")
 class Tarefa:
     '''Classe que vai definir cada uma das tarefas'''
-    def __init__(self, id:int, lista:ListaDeTarefas, titulo:str, nota:str, data_conclusao:datetime.datetime, tags:list, prioridade:str, repeticao:str):
+    def __init__(self, id:int, lista_tarefas:int , titulo:str, nota:str, data_conclusao:datetime.datetime, tags:list, prioridade:str, repeticao:str):
         self.id = id
-        self.lista = lista
+        self.lista_tarefas = lista_tarefas
         self.concluida = False
         self.titulo = titulo
         self.nota = nota
@@ -123,16 +83,7 @@ class Tarefa:
         self.repeticao = repeticao
     
     def __str__(self):
-        print(f'ID da Tarefa: {self.id}')
-        print(f'Título: {self.titulo}')
-        print(f'Lista: {self.lista.titulo}')
-        print(f'Nota: {self.nota}')
-        print(f'Data de Conclusão: {self.data_conclusao.strftime("%d/%m/%Y")}')
-        if len(self.tags) > 0:
-            print(f'Tags: {", ".join(self.tags)}')
-        print(f'Prioridade: {self.prioridade}')
-        print(f'Repetição: {self.repeticao}')
-        print(f'Concluída: {"Sim" if self.concluida else "Não"}')
+        return f'ID da Tarefa: {self.id}\nTítulo: {self.titulo}\nLista: {self.lista_tarefas}\nNota: {self.nota}\nData de Conclusão: {self.data_conclusao.strftime("%d/%m/%Y")}\nTags: {", ".join(self.tags) if self.tags else "Nenhuma"}\nPrioridade: {self.prioridade}\nRepetição: {self.repeticao}\nConcluída: {"Sim" if self.concluida else "Não"}'
     
     def str_resumo(self):
         return f'Título: {self.titulo}\nData de Conclusão: {self.data_conclusao.strftime("%d/%m/%Y")}\nConcluída: {"Sim" if self.concluida else "Não"}'
