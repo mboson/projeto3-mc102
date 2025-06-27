@@ -87,6 +87,18 @@ class ListaDeTarefas:
                     
         
         print('Tarefa não encontrada! Verifique o ID e tente novamente.')
+    
+    def tarefas_concluidas(self):
+        tarefas_concluidas = [tarefa for tarefa in self.tarefas if tarefa.concluida]
+        
+        if len(tarefas_concluidas) == 0:
+            print('Nenhuma tarefa concluída.')
+            return
+        
+        print('Tarefas concluídas:')
+        for tarefa in tarefas_concluidas:
+            print('-' * 20)
+            print(tarefa.str_resumo())
 
 class Tarefa:
     '''Classe que vai definir cada uma das tarefas'''
@@ -112,6 +124,9 @@ class Tarefa:
         print(f'Prioridade: {self.prioridade}')
         print(f'Repetição: {self.repeticao}')
         print(f'Concluída: {"Sim" if self.concluida else "Não"}')
+    
+    def str_resumo(self):
+        return f'Título: {self.titulo}\nData de Conclusão: {self.data_conclusao.strftime("%d/%m/%Y")}\nConcluída: {"Sim" if self.concluida else "Não"}'
     
     def editar_tarefa(self):
         campo_editar = input('Qual campo você gostaria de editar? (título, nota, data de conclusão, tags, prioridade, repetição) ').lower()
@@ -161,4 +176,3 @@ class Tarefa:
         else:
             print('Campo inválido! Tente novamente.')
             self.editar_tarefa()
-            
