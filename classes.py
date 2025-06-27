@@ -88,6 +88,15 @@ class ListaDeTarefas:
         
         print('Tarefa não encontrada! Verifique o ID e tente novamente.')
 
+    def remover_tarefa(self, tarefa):
+        self.tarefas.remove(tarefa)
+        print(f"Tarefa removida: {tarefa}")
+
+    def busca_tarefa(self, tarefa): #incompleto
+        if tarefa in self.tarefas:
+            print(tarefa) #?Todas as tarefas que contém esse texto no título, nota, ou tags deverão ser mostradas
+        else:
+            print("Tarefa não encontrada")
 class Tarefa:
     '''Classe que vai definir cada uma das tarefas'''
     def __init__(self, id:int, lista:ListaDeTarefas, titulo:str, nota:str, data_conclusao:datetime.datetime, tags:list, prioridade:str, repeticao:str):
