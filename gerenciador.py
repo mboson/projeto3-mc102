@@ -98,19 +98,6 @@ class Gerenciador:
         for lista in self.listas:
             print(f'- {lista.titulo}')
     
-    def listar_tarefas(self):
-        if not self.tarefas:
-            print('Nenhuma tarefa criada.')
-            return
-        print('Tarefas:')
-        for tarefa in self.tarefas:
-            print('-'*20)
-            print(f'{tarefa.str_resumo()}')
-        print('-'*20)
-        
-        print()
-        input('Pressione ENTER para voltar...')
-    
     def listar_listas(self):
         if not self.listas:
             print('Nenhuma lista criada.')
@@ -118,9 +105,6 @@ class Gerenciador:
         print('Listas de Tarefas:')
         for lista in self.listas:
             print(f'- {lista.titulo}')
-        
-        print()
-        input('Pressione ENTER para voltar...')
 
     def buscar_lista(self, titulo):
         for lista in self.listas:
@@ -128,3 +112,36 @@ class Gerenciador:
                 return lista
         print(f'Lista "{titulo}" não encontrada.')
         return None
+
+    def buscar_tarefa(self, titulo):
+        for tarefa in self.tarefas:
+            if tarefa.id == titulo:
+                return tarefa
+        print(f'Tarefa com titulo {titulo} não encontrada.')
+        return None
+    
+    def tarefas_in_lista(self, id_lista):
+        tarefas_na_lista = [tarefa for tarefa in self.tarefas if tarefa.lista_tarefas == id_lista]
+        
+        if not tarefas_na_lista:
+            print('Essa lista não possui nenhuma tarefa.')
+            return
+        
+        print('Tarefas na lista:')
+        for tarefa in tarefas_na_lista:
+            print('-'*20)
+            print(tarefa.str_resumo())
+        print('-'*20)
+    
+    def tarefas_concluidas_in_lista(self, id_lista):
+        tarefas_na_lista = [tarefa for tarefa in self.tarefas if tarefa.lista_tarefas == id_lista and tarefa.concluida]
+        
+        if not tarefas_na_lista:
+            print('Essa lista não possui nenhuma tarefa concluida.')
+            return
+        
+        print('Tarefas na lista:')
+        for tarefa in tarefas_na_lista:
+            print('-'*20)
+            print(tarefa.str_resumo())
+        print('-'*20)
