@@ -15,12 +15,12 @@
 - ❌ **(2 pontos)** Conclusão das tarefas: O usuário pode marcar uma tarefa como concluída. Se for repetitiva, uma nova tarefa é criada com a data ajustada.
 - ❌ **(0,5 ponto)** Busca por tarefas: Deve ser possível buscar por texto no título, nota ou tags. As tarefas encontradas podem ser editadas, removidas ou marcadas como concluídas.
 - ✅ **(0,5 ponto)** Ver tarefas concluídas: Deve ser possível ver todas as tarefas concluídas, desmarcar, remover uma ou remover todas.
-- ❌ **(2 pontos)** Visualização das tarefas:
-  - ❌ a. Ver tarefas por tag, por lista ou todas ao mesmo tempo:
-    -  i. Todas as tarefas
-    -  ii. Tarefas com data até hoje (incluindo atrasadas)
-    -  iii. Tarefas com data até em 7 dias (incluindo atrasadas)
-    -  iv. Apenas tarefas não concluídas
-  -  b. Ordenação por data, prioridade e lista
-  -  c. Ordenação por prioridade, com desempate por data e lista
+- ✅ **(2 pontos)** Visualização das tarefas:
+  - ✅ a. Ver tarefas por tag, por lista ou todas ao mesmo tempo:
+    -  ✅i. Todas as tarefas
+    -  ✅ii. Tarefas com data até hoje (incluindo atrasadas)
+    -  ✅iii. Tarefas com data até em 7 dias (incluindo atrasadas)
+    -  ✅iv. Apenas tarefas não concluídas
+  -  ✅b. Ordenação por data, prioridade e lista
+  -  ✅c. Ordenação por prioridade, com desempate por data e lista
 - ❌ **(3 pontos)** Manipulação de arquivos: O programa deve carregar e salvar tarefas automaticamente, com tarefas e listas predefinidas no sistema.

@@ -1,6 +1,7 @@
 from gerenciador import Gerenciador
 from utils import clear_screen
 from classes import ListaDeTarefas, Tarefa
+import datetime
 import time
 
 def tarefa_selecionada(tarefa: Tarefa):
@@ -110,7 +111,7 @@ def opcao_3():
             opcao_3()
     
     elif opcao == '3':
-        titulo = input('Digite o título da lista de tarefas para selecionar: ').strip()
+        titulo = input('Digite o título da lista de tarefas para a selecionar: ').strip()
         lista = gerenciador.buscar_lista(titulo)
         
         if lista:
@@ -130,6 +131,135 @@ def opcao_3():
         print('Opção inválida. Tente novamente.')
         time.sleep(1)
         opcao_3()
+        
+def visualizacao_tarefas():
+    """Função para visualizar as tarefas de todas as listas com filtros"""
+    clear_screen()
+    print('Qual filtro você gostaria de aplicar?')
+    print('1. Listar todas as tarefas')
+    print('2. Filtrar por tags')
+    print('3. Filtrar por tarefas para hoje (incluindo tarefas atrasadas)')
+    print('4. Filtrar por tarefas para esta semana')
+    print('5. Filtrar por não concluídas')
+    print('6. Ordenar por prioridade')
+    print('7. Ordenar por data de conclusão')
+    print('8. Voltar ao menu principal')
+    
+    opcao = input('Escolha uma opção: ').strip()
+    clear_screen()
+
+    if opcao == '1':
+        gerenciador.listar_tarefas()
+        input('Pressione ENTER para voltar...')
+        visualizacao_tarefas()
+    
+    elif opcao == '2':
+        tag = input('Digite a tag que deseja filtrar: ').strip()
+        tarefas_filtradas = gerenciador.filtrar_tarefas_tags(tag)
+        
+        if not tarefas_filtradas:
+            print(f'Nenhuma tarefa encontrada com a tag "{tag}". Tente novamente.')
+            time.sleep(1)
+            visualizacao_tarefas()
+        
+        for tarefa in tarefas_filtradas:
+            print('-'*20)
+            print(tarefa)
+            print('-'*20)
+            
+            selecionar_tarefa = input('Você gostaria de selecionar essa tarefa? (s/n) ').strip().lower()
+            
+            if selecionar_tarefa == 's':
+                tarefa_selecionada(tarefa)
+                break
+            
+            clear_screen()
+    
+    elif opcao == '3':
+        tarefas_hoje = gerenciador.filtrar_tarefas_hoje()
+        
+        if not tarefas_hoje:
+            print('Nenhuma tarefa encontrada para hoje.')
+            input('Pressione ENTER para voltar...')
+            visualizacao_tarefas()
+        
+        for tarefa in tarefas_hoje:
+            print('-'*20)
+            print(tarefa)
+            print('-'*20)
+            
+            selecionar_tarefa = input('Você gostaria de selecionar essa tarefa? (s/n) ').strip().lower()
+            
+            if selecionar_tarefa == 's':
+                tarefa_selecionada(tarefa)
+                break
+            
+            clear_screen()
+    
+    elif opcao == '4':
+        tarefas_semana = gerenciador.filtrar_tarefas_semana()
+        
+        if not tarefas_semana:
+            print('Nenhuma tarefa encontrada para esta semana.')
+            input('Pressione ENTER para voltar...')
+            visualizacao_tarefas()
+        
+        for tarefa in tarefas_semana:
+            print('-'*20)
+            print(tarefa)
+            print('-'*20)
+            
+            selecionar_tarefa = input('Você gostaria de selecionar essa tarefa? (s/n) ').strip().lower()
+            
+            if selecionar_tarefa == 's':
+                tarefa_selecionada(tarefa)
+                break
+            
+            clear_screen()
+    
+    elif opcao == '5':
+        tarefas_nao_concluidas = gerenciador.filtrar_nao_concluidas()
+        
+        if not tarefas_nao_concluidas:
+            print('Nenhuma tarefa não concluída encontrada.')
+            input('Pressione ENTER para voltar...')
+            visualizacao_tarefas()
+        
+        for tarefa in tarefas_nao_concluidas:
+            print('-'*20)
+            print(tarefa)
+            print('-'*20)
+            
+            selecionar_tarefa = input('Você gostaria de selecionar essa tarefa? (s/n) ').strip().lower()
+            
+            if selecionar_tarefa == 's':
+                tarefa_selecionada(tarefa)
+                break
+            
+            clear_screen()
+    
+    elif opcao == '6':
+        gerenciador.ordenar_tarefas_prioridade()
+        gerenciador.listar_tarefas()
+        input('Pressione ENTER para voltar...')
+        visualizacao_tarefas()
+    
+    elif opcao == '7':
+        gerenciador.ordenar_tarefas_data()
+        gerenciador.listar_tarefas()
+        input('Pressione ENTER para voltar...')
+        visualizacao_tarefas()
+    
+    elif opcao == '8':
+        return
+    
+    else:
+        print('Opção inválida. Tente novamente.')
+        time.sleep(0.5)
+        visualizacao_tarefas()
+        
+        
+            
 
 def main():
     global gerenciador
@@ -141,7 +271,8 @@ def main():
         print("1. Criar nova lista de tarefas")
         print("2. Adicionar tarefa")
         print("3. Listas de Tarefas")
-        print("4. Sair")
+        print('4. Visualização de Tarefas')
+        print("5. Sair")
         
         opcao = input("Escolha uma opção: ")
         
@@ -159,8 +290,12 @@ def main():
             
         elif opcao == '3':
             opcao_3()
-            
+        
         elif opcao == '4':
+            clear_screen()
+            visualizacao_tarefas()
+                        
+        elif opcao == '5':
             time.sleep(1)
             break
         

@@ -22,7 +22,7 @@ class ListaDeTarefas:
 
 class Tarefa:
     '''Classe que vai definir cada uma das tarefas'''
-    def __init__(self, id:int, lista_tarefas:int , titulo:str, nota:str, data_conclusao:datetime.datetime, tags:list, prioridade:str, repeticao:str):
+    def __init__(self, id:int, lista_tarefas:int , titulo:str, nota:str, data_conclusao:datetime.datetime, tags:list, prioridade:int, repeticao:str):
         self.id = id
         self.lista_tarefas = lista_tarefas
         self.concluida = False
@@ -34,7 +34,14 @@ class Tarefa:
         self.repeticao = repeticao
     
     def __str__(self):
-        return f'ID da Tarefa: {self.id}\nTítulo: {self.titulo}\nLista: {self.lista_tarefas}\nNota: {self.nota}\nData de Conclusão: {self.data_conclusao.strftime("%d/%m/%Y")}\nTags: {", ".join(self.tags) if self.tags else "Nenhuma"}\nPrioridade: {self.prioridade}\nRepetição: {self.repeticao}\nConcluída: {"Sim" if self.concluida else "Não"}'
+        dict_prioridades = {
+            3: "sem prioridade",
+            2: "baixa",
+            1: "média",
+            0: "alta"
+        }
+        
+        return f'ID da Tarefa: {self.id}\nTítulo: {self.titulo}\nLista: {self.lista_tarefas}\nNota: {self.nota}\nData de Conclusão: {self.data_conclusao.strftime("%d/%m/%Y")}\nTags: {", ".join(self.tags) if self.tags else "Nenhuma"}\nPrioridade: {dict_prioridades[self.prioridade]}\nRepetição: {self.repeticao}\nConcluída: {"Sim" if self.concluida else "Não"}'
     
     def str_resumo(self):
         return f'Título: {self.titulo}\nData de Conclusão: {self.data_conclusao.strftime("%d/%m/%Y")}\nConcluída: {"Sim" if self.concluida else "Não"}'

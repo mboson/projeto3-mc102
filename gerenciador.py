@@ -65,14 +65,21 @@ class Gerenciador:
         print()
         
         valores_possiveis_prioridades = ["sem prioridade", "baixa", "média", "alta"]
+        dict_prioridades = {
+            "sem prioridade": 3,
+            "baixa": 2,
+            "média": 1,
+            "alta": 0
+        }
         while True:
-            prioridade = input('Qual a prioridade dessa tarefa? Valores possíveis: "Sem prioridade", "Baixa", "Média" e "Alta". \n').lower()
-            
-            if prioridade in valores_possiveis_prioridades:
+            try:
+                prioridade = dict_prioridades[input('Qual a prioridade dessa tarefa? Valores possíveis: "Sem prioridade", "Baixa", "Média" e "Alta". \n').lower()]
                 break
             
-            print('O valor digitado é inváldio! Tente novamente.')
-            print()
+            except KeyError:
+                print('O valor digitado é inváldio! Tente novamente.')
+                print()
+                 
         print()
         
         valores_possiveis_repeticao = ["nenhuma", "diária", "semanal", "mensal", "anual"]
@@ -98,13 +105,15 @@ class Gerenciador:
         for lista in self.listas:
             print(f'- {lista.titulo}')
     
-    def listar_listas(self):
-        if not self.listas:
-            print('Nenhuma lista criada.')
+    def listar_tarefas(self):
+        if not self.tarefas:
+            print('Nenhuma tarefa criada.')
             return
-        print('Listas de Tarefas:')
-        for lista in self.listas:
-            print(f'- {lista.titulo}')
+        print('Tarefas:')
+        for tarefa in self.tarefas:
+            print('-'*20)
+            print(tarefa)
+        print('-'*20)
 
     def buscar_lista(self, titulo):
         for lista in self.listas:
@@ -130,7 +139,7 @@ class Gerenciador:
         print('Tarefas na lista:')
         for tarefa in tarefas_na_lista:
             print('-'*20)
-            print(tarefa.str_resumo())
+            print(tarefa)
         print('-'*20)
     
     def tarefas_concluidas_in_lista(self, id_lista):
@@ -143,5 +152,32 @@ class Gerenciador:
         print('Tarefas na lista:')
         for tarefa in tarefas_na_lista:
             print('-'*20)
-            print(tarefa.str_resumo())
+            print(tarefa)
         print('-'*20)
+    
+    def filtrar_tarefas_tags(self, tag):
+        tarefas_filtradas = [tarefa for tarefa in self.tarefas if tag in tarefa.tags]
+        return tarefas_filtradas
+    
+    def ordenar_tarefas_prioridade(self, prioridade):
+        self.tarefas = sorted(self.tarefas, key=lambda tarefa: (tarefa.prioridade, tarefa.data_conclusao, tarefa.lista_tarefas))
+    
+    def filtrar_tarefas_hoje(self):
+        hoje = datetime.datetime.now().date()
+        tarefas_hoje = [tarefa for tarefa in self.tarefas if tarefa.data_conclusao.date() <= hoje]
+        
+        return tarefas_hoje
+
+    def filtrar_tarefas_semana(self):
+        hoje = datetime.datetime.now().date()
+        tarefas_semana = [tarefa for tarefa in self.tarefas if tarefa.data_conclusao.date() <= hoje + datetime.timedelta(days=7)]
+        
+        return tarefas_semana
+
+    def ordenar_tarefas_data(self):
+        self.tarefas = sorted(self.tarefas, key=lambda tarefa: -tarefa.data_conclusao)
+    
+    def filtrar_nao_concluidas(self):
+        tarefas_nao_concluidas = [tarefa for tarefa in self.tarefas if not tarefa.concluida]
+        
+        return tarefas_nao_concluidas
