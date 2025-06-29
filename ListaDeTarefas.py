@@ -1,5 +1,5 @@
 from gerenciador import Gerenciador
-from utils import clear_screen
+from utils import clear_screen, add_tarefa, add_listadetarefas, salvar, carregar
 from classes import ListaDeTarefas, Tarefa
 import datetime
 import time
@@ -258,12 +258,11 @@ def visualizacao_tarefas():
         time.sleep(0.5)
         visualizacao_tarefas()
         
-        
             
 
 def main():
     global gerenciador
-    gerenciador = Gerenciador()
+    gerenciador = carregar()
     
     while True:
         clear_screen()
@@ -296,6 +295,8 @@ def main():
             visualizacao_tarefas()
                         
         elif opcao == '5':
+            salvar(gerenciador)
+
             time.sleep(1)
             break
         

@@ -3,10 +3,10 @@ import random
 
 class ListaDeTarefas:
     '''Classe que vai conter várias tarefas'''
-    def __init__(self, id, titulo):
+    def __init__(self, id, titulo, tarefas = []):
         self.id = id
         self.titulo = titulo
-        self.tarefas = []
+        self.tarefas = tarefas
         
     def __str__(self):
         return self.titulo
@@ -23,10 +23,10 @@ class ListaDeTarefas:
 
 class Tarefa:
     '''Classe que vai definir cada uma das tarefas'''
-    def __init__(self, id:int, lista_tarefas:int , titulo:str, nota:str, data_conclusao:datetime.datetime, tags:list, prioridade:int, repeticao:str):
+    def __init__(self, id:int, lista_tarefas:int , concluida:bool , titulo:str, nota:str, data_conclusao:datetime.datetime, tags:list, prioridade:int, repeticao:str):
         self.id = id
         self.lista_tarefas = lista_tarefas
-        self.concluida = False
+        self.concluida = concluida
         self.titulo = titulo
         self.nota = nota
         self.data_conclusao = data_conclusao

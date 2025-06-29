@@ -3,9 +3,9 @@ import random
 import datetime
 
 class Gerenciador:
-    def __init__(self):
-        self.listas = []
-        self.tarefas = []
+    def __init__(self, listas = [], tarefas = []):
+        self.listas = listas
+        self.tarefas = tarefas
 
     def criar_lista(self):
         titulo = input('Qual o título da sua lista de tarefas? ').strip()
@@ -94,7 +94,7 @@ class Gerenciador:
             print()
         print()
         
-        self.tarefas.append(Tarefa(id_tarefa, lista_tarefas, titulo, nota, data_conclusao, tags, prioridade, repeticao))
+        self.tarefas.append(Tarefa(id_tarefa, lista_tarefas, False,  titulo, nota, data_conclusao, tags, prioridade, repeticao))
         
         print(f'Tarefa "{titulo}" adicionada com sucesso à lista "{lista.titulo}"!')
 
