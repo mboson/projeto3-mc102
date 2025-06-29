@@ -6,6 +6,7 @@ class ListaDeTarefas:
     def __init__(self, id, titulo):
         self.id = id
         self.titulo = titulo
+        self.tarefas = []
         
     def __str__(self):
         return self.titulo

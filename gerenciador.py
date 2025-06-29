@@ -41,6 +41,7 @@ class Gerenciador:
         #Solicita o título da lista de tarefas e busca a lista correspondente
         lista_titulo = input('Digite o título da lista de tarefas: ').lower().strip()
         lista = self.buscar_lista(lista_titulo)
+        lista.tarefas.append(id_tarefa)
         lista_tarefas = lista.id
         
         titulo = input('Qual o título da sua tarefa? ')
