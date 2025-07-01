@@ -55,7 +55,7 @@ class Tarefa:
         elif campo_editar == 'nota':
             self.nota = input('Digite a nova nota: ')
         elif campo_editar == 'data de conclusão':
-            dia, mes, ano = input('Digite a nova data de conclusão no formato dd/mm/aaaa: ')
+            dia, mes, ano = map(int, input('Digite a nova data de conclusão no formato dd/mm/aaaa: ').split('/'))
             self.data_conclusao = datetime.datetime(ano, mes, dia)
         elif campo_editar == 'tags':
             self.tags = []
@@ -70,11 +70,19 @@ class Tarefa:
                 
         elif campo_editar == 'prioridade':
             valores_possiveis_prioridades = ["sem prioridade", "baixa", "média", "alta"]
+
+            dict_prioridades = {
+                "sem prioridade": 3,
+                "baixa": 2,
+                "média": 1,
+                "alta": 0
+            }
+
             while True:
                 prioridade = input('Qual a nova prioridade? Valores possíveis: "Sem prioridade", "Baixa", "Média" e "Alta". \n').lower()
                 
                 if prioridade in valores_possiveis_prioridades:
-                    self.prioridade = prioridade
+                    self.prioridade = dict_prioridades[prioridade]
                     break
                 
                 print('O valor digitado é inválido! Tente novamente.')

@@ -3,6 +3,7 @@ from utils import clear_screen, add_tarefa, add_listadetarefas, salvar, carregar
 from classes import ListaDeTarefas, Tarefa
 import datetime
 import time
+import random
 
 def tarefa_selecionada(tarefa: Tarefa):
     '''Função que será chamada quando o usuário selecionar uma tarefa específica'''
@@ -30,16 +31,57 @@ def tarefa_selecionada(tarefa: Tarefa):
     elif opcao == '3':
         tarefa.concluida = True
         print(f'Tarefa "{tarefa.titulo}" concluída!')
+
+        if tarefa.repeticao != "nenhuma":
+            tempo_atual = datetime.datetime.now()
+
+            if tarefa.repeticao == "diária":
+                novo = tempo_atual + datetime.timedelta(days = 1)
+            elif tarefa.repeticao == "semanal":
+                novo = tempo_atual + datetime.timedelta(days = 7)
+            elif tarefa.repeticao == "mensal":
+                novo = tempo_atual + datetime.timedelta(days = 30)
+            elif tarefa.repeticao == "anual":
+                novo = tempo_atual + datetime.timedelta(days = 365)
+
+        while True:
+            id_tarefa = random.randint(1000, 9999)
+            if all(tarefa.id != id_tarefa for tarefa in gerenciador.tarefas):
+                break
+
+        nova_tarefa = Tarefa(id_tarefa, tarefa.lista_tarefas, False, tarefa.titulo+'*', tarefa.nota, novo, tarefa.tags, tarefa.prioridade, tarefa.repeticao)
+
+
+
+        gerenciador.tarefas.append(nova_tarefa)
+        for lista in gerenciador.listas:
+            if lista.id == nova_tarefa.lista_tarefas:
+                lista.tarefas.append(nova_tarefa.id)
+
+
         input('Pressione ENTER para voltar...')
         tarefa_selecionada(tarefa)
     
     elif opcao == '4':
-        #Falta implementar a remoção de tarefas
-        print()
+        minhalista = tarefa.lista_tarefas
+
+        for lista in gerenciador.listas:
+            if lista.id == minhalista:
+                lista.tarefas.remove(tarefa.id)
+        
+        gerenciador.tarefas.remove(tarefa)
+
+        print(f"A tarefa {tarefa} foi apagada com sucesso!")
+
+        time.sleep(2)
     
     elif opcao == '5':
         clear_screen()
-        lista = gerenciador.buscar_lista(tarefa.lista_tarefas)
+
+        for x in gerenciador.listas:
+            if x.id == tarefa.lista_tarefas:
+                lista = x
+
         lista_de_tarefas_selecionada(lista)
 
 def lista_de_tarefas_selecionada(lista: ListaDeTarefas):
@@ -68,10 +110,11 @@ def lista_de_tarefas_selecionada(lista: ListaDeTarefas):
         titulo_tarefa = input('Digite o título da tarefa que deseja selecionar: ').strip()
         tarefa = gerenciador.buscar_tarefa(titulo_tarefa)
         
-        if tarefa and tarefa.lista_tarefas == lista.id:
+        if tarefa != None and tarefa.lista_tarefas == lista.id:
             tarefa_selecionada(tarefa)
         else:
             print('Tarefa não encontrada ou não pertence a esta lista. Tente novamente.')
+            time.sleep(2)
             lista_de_tarefas_selecionada(lista)
     
     elif opcao == '4':
@@ -272,6 +315,8 @@ def main():
         print("3. Listas de Tarefas")
         print('4. Visualização de Tarefas')
         print("5. Sair")
+
+        salvar(gerenciador)
         
         opcao = input("Escolha uma opção: ")
         

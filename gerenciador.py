@@ -125,7 +125,7 @@ class Gerenciador:
 
     def buscar_tarefa(self, titulo):
         for tarefa in self.tarefas:
-            if tarefa.id == titulo:
+            if tarefa.titulo == titulo:
                 return tarefa
         print(f'Tarefa com titulo {titulo} não encontrada.')
         return None
